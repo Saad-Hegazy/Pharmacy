@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,23 +6,32 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'ItemAppBar.dart';
 import 'ItemBottomNaveBar.dart';
 class ItemPage extends StatefulWidget {
-  const ItemPage({super.key});
-
+   ItemPage({super.key});
   @override
   State<ItemPage> createState() => _ItemPageState();
 }
-
 class _ItemPageState extends State<ItemPage> {
+  bool chooseBox=true;
+  bool chooseStrip=false;
+  List unit= [
+        'شريط',
+        'علبة',
+      ];
   late int count=0;
   @override
   Widget build(BuildContext context) {
+    final _medicine = ModalRoute.of(context)?.settings.arguments as Map;
     return Scaffold(
       backgroundColor: Color(0xFFEDECF2),
       body: ListView(
         children: [
           ItemAppBar(),
-          Padding(padding: EdgeInsets.all(16),
-          child: Image.asset('assets/Best/1.png',height: 230,),
+          Padding(
+            padding: EdgeInsets.all(16),
+           child:CachedNetworkImage(imageUrl: _medicine['ImageURL'].toString(),
+           fit: BoxFit.fill,
+           ),
+
           ),
           Arc(
             edge:Edge.TOP,
@@ -29,22 +39,25 @@ class _ItemPageState extends State<ItemPage> {
             height: 30,
             child: Container(
               width: double.infinity,
-              height: 350,
+              height: MediaQuery.sizeOf(context).height,
               color: Colors.white,
               child: Padding(padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  Padding(padding: EdgeInsets.only(
+                     Padding(padding: EdgeInsets.only(
                       top: 50,
                       bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('اسم المنتج',style: TextStyle(
-                        fontSize: 28,
-                        color: Colors.lightBlue,
-                        fontWeight: FontWeight.bold,
-                      ),)
+                      Expanded(
+                        child: Text(_medicine['name']
+                          ,style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.lightBlue,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      )
                     ],
                   ),
                   ),
@@ -53,7 +66,7 @@ class _ItemPageState extends State<ItemPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RatingBar.builder(
-                        initialRating:4,
+                        initialRating:_medicine['initialRating'],
                         minRating: 1,
                         direction: Axis.horizontal,
                         itemCount: 5,
@@ -67,9 +80,9 @@ class _ItemPageState extends State<ItemPage> {
                           GestureDetector(
                             onTap:(){
                               setState(() {
-                                if(count>=100){
-                                  count=100;
-                                }else{count++;}
+                                if(_medicine['OrderAmount']>=100){
+                                  _medicine['OrderAmount']=100;
+                                }else{_medicine['OrderAmount']++;}
                               });
                             },
                             child: Container(
@@ -89,17 +102,17 @@ class _ItemPageState extends State<ItemPage> {
                           ),
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('$count',style: TextStyle(
+                            child: Text(_medicine['OrderAmount'].toString(),style: TextStyle(
                               color: Colors.lightBlue,
                               fontSize: 18,
                             ),),
                           ),   GestureDetector(
                             onTap:(){
                               setState(() {
-                                if(count>0){
-                                  count--;
+                                if(_medicine['OrderAmount']>1){
+                                  _medicine['OrderAmount']--;
                                 }else{
-                                  count=0;
+                                  _medicine['OrderAmount']=1;
                                 }});
                             },
                             child: Container(
@@ -123,12 +136,14 @@ class _ItemPageState extends State<ItemPage> {
                   Padding(padding: EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment:MainAxisAlignment.end ,
-                    children:[Text(
-                      "توصيف للمنتج فيتامين معزز لنشاط الجسم",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.lightBlue,
+                    children:[Expanded(
+                      child: Text(
+                        _medicine['description'],
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.lightBlue,
+                        ),
                       ),
                     ),
                   ],),
@@ -139,22 +154,66 @@ class _ItemPageState extends State<ItemPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                                color: Colors.lightBlue,
+                          _medicine['hasStripe']?
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                chooseStrip=!chooseStrip;
+                                chooseBox=!chooseBox;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                  color: chooseStrip ? Colors.lightBlue: Colors.white,
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius:2,
+                                      blurRadius: 8,)
+                                  ]
+                              ),
+                              child:Text( 'شريط' ,style: TextStyle(
+                                color:chooseStrip? Colors.white :Colors.lightBlue ,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),),
+                            ),
+                          ):SizedBox(),
+                          SizedBox(width: 10,),
+                          GestureDetector(
+                               onTap: (){
+                           setState(() {
+                             chooseStrip=!chooseStrip;
+                             chooseBox=!chooseBox;
+                           });
+                           },
+                             child: Container(
+                                height: 40,
+                                  width: 40,
+                                alignment: Alignment.center,
+                                 margin: EdgeInsets.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                  color: chooseBox ? Colors.lightBlue: Colors.white,
                                 borderRadius: BorderRadius.circular(30),
                                 boxShadow: [
-                                  BoxShadow(
+                              BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius:2,
-                                    blurRadius: 8,)]
-                            ),
-                            child: Text('علبة',),
+                                       spreadRadius:2,
+                                blurRadius: 8,)
+                                ]
+                             ),
+                              child:Text( "علبة" ,style: TextStyle(
+                                 color:chooseBox? Colors.white :Colors.lightBlue ,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),),
                           ),
+                  ),
                           SizedBox(width: 10,),
                           Text(": الوحدة",
                             style: TextStyle(
@@ -171,7 +230,9 @@ class _ItemPageState extends State<ItemPage> {
           )
         ],
       ),
-      bottomNavigationBar: ItemBottomNaveBar(),
+      bottomNavigationBar:  ItemBottomNaveBar(
+        price: chooseBox? _medicine['price']: _medicine['price']/_medicine['numberOfStripes'],
+        OrderAmount: _medicine['OrderAmount'],),
     );
   }
 }

@@ -23,7 +23,7 @@ class CategoriesWidget extends StatelessWidget {
         for(int i=1 ; i<=9 ;i++)
           InkWell(
             onTap: (){
-              Navigator.pushNamed(context, 'CategoryPage');
+              Navigator.pushNamed( context, 'CategoryPage',arguments:titel[i-1]);
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0),

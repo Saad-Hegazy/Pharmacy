@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class ItemBottomNaveBar extends StatelessWidget {
-  const ItemBottomNaveBar({super.key});
+  final double  price;
+  final int OrderAmount;
+  const ItemBottomNaveBar({super.key,  required this.price, required this.OrderAmount});
 
   @override
   Widget build(BuildContext context) {
+    final double totalPrice = price* OrderAmount;
     return BottomAppBar(
         child: Container(
           height: 70,
@@ -22,7 +25,7 @@ class ItemBottomNaveBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("\200 L.E",
+              Text(totalPrice.toStringAsFixed(1) + "جنيه" ,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,

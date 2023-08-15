@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'componant/OrdeAppBar.dart';
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
 
@@ -11,14 +9,8 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
-     return  Scaffold(
-         body: SingleChildScrollView(
-           child: Column(
-             children: [
-               OrderAppBar(),
-             ],
-           ),
-         ),
+    return Scaffold(
+      body: Center(child: Text("Order Screen")),
     );
   }
 }

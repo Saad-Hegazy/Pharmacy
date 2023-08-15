@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../size_config.dart';
+import '../../../theme/size_config.dart';
 import '../../../widgets/icon_btn_with_counter.dart';
 import 'search_field.dart';
 class HomeHeader extends StatelessWidget {
@@ -10,8 +10,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      padding:EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

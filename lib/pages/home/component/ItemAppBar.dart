@@ -37,7 +37,7 @@ class _ItemAppBarState extends State<ItemAppBar> {
                   favorite = !favorite;
               });
             },
-              child: Icon(  favorite ? Icons.favorite_border : Icons.favorite ,size: 30,color: Colors.red,)
+              child: Icon(  favorite ? Icons.favorite : Icons.favorite_border ,size: 30,color: Colors.red,)
           ),
         ],
       ),

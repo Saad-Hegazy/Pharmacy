@@ -1,39 +1,38 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../../services/Carusel.dart';
+import '../../../services/model/Carusel.dart';
 import '../../../services/Function.dart';
-import '../../../size_config.dart';
+import '../../../theme/size_config.dart';
 import '../../../widgets/ItemsWidget.dart';
 import '../../../widgets/NewSection.dart';
 import 'CategoriesWidget.dart';
 import 'OrderNow.dart';
 import 'home_header.dart';
-class BodyComponent extends StatefulWidget {
-  const BodyComponent({super.key});
+class HomePageBodyComponent extends StatefulWidget {
+  const HomePageBodyComponent({super.key});
 
   @override
-  State<BodyComponent> createState() => _BodyComponentState();
+  State<HomePageBodyComponent> createState() => _HomePageBodyComponentState();
 }
 
-class _BodyComponentState extends State<BodyComponent> {
-   
+class _HomePageBodyComponentState extends State<HomePageBodyComponent> {
   List<Carusel> _CaruselimagesList = [];
-
   fetchCarouselImages()async{
     var _firestoreInstance = FirebaseFirestore.instance;
     QuerySnapshot qn = await _firestoreInstance.collection("sliderImage").get();
     setState(() {
       for(int i=0 ; i<qn.docs.length ;i++){
         _CaruselimagesList.add(
-          Carusel(url: qn.docs[i]['url'], push: qn.docs[i]['push'],
-          )
+          Carusel(url: qn.docs[i]['url'], link: qn.docs[i]['link'],)
         );
       }
     });
     return _CaruselimagesList;
   }
+
   @override
   void initState() {
     fetchCarouselImages();
@@ -78,12 +77,14 @@ class _BodyComponentState extends State<BodyComponent> {
                     .map(
                       (item) => InkWell(
                         onTap: (){
-                          Functions().launchURLBrowser(item.push);
+                          Functions().launchURLBrowser(item.link);
                         },
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration:  BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(item.url),
+                              image: CachedNetworkImageProvider(
+                                item.url
+                              ),
                               fit: BoxFit.fill,
 
                             ),

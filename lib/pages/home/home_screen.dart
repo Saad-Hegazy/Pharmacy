@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import '../../size_config.dart';
+import '../../theme/color.dart';
+import '../../theme/size_config.dart';
 import '../Cart/cartScreen.dart';
 import '../profile/profileScreen.dart';
 import 'component/body.dart';
@@ -14,7 +15,7 @@ class _HomeState extends State<Home> {
   int _selectedIndex=1;
   List Screens=[
     CartPage(),
-    BodyComponent(),
+    HomePageBodyComponent(),
     ProfileScreen(),
   ];
   @override
@@ -25,17 +26,17 @@ class _HomeState extends State<Home> {
      bottomNavigationBar: CurvedNavigationBar(
        index: _selectedIndex,
        backgroundColor: Colors.transparent,
-       color: Colors.lightBlue,
-       height: 70,
+       color: lightBlueColor,
+       height: 50,
        onTap: (index){
          setState(() {
           _selectedIndex   =  index ;
          });
        },
        items: [
-         Icon(Icons.shopping_cart_rounded,size: 30, color: Colors.white,),
-         Icon(Icons.home,size: 30, color: Colors.white,),
-         Icon(Icons.list,size: 30, color: Colors.white,),
+         Icon(Icons.shopping_cart_rounded,size: 30, color: whiteColor,),
+         Icon(Icons.home,size: 30, color: whiteColor,),
+         Icon(Icons.person,size: 30, color: whiteColor,),
        ],
      ),
     );

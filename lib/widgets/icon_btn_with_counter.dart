@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../constants.dart';
-import '../../../size_config.dart';
+import '../theme/size_config.dart';
 
 class IconBtnWithCounter extends StatelessWidget {
   const IconBtnWithCounter({
@@ -27,7 +25,7 @@ class IconBtnWithCounter extends StatelessWidget {
             height: getProportionateScreenWidth(46),
             width: getProportionateScreenWidth(46),
             decoration: BoxDecoration(
-              color: kSecondaryColor.withOpacity(0.1),
+              color:  Color(0xFF979797).withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(svgSrc),

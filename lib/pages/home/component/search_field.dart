@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../constants.dart';
-import '../../../size_config.dart';
+import '../../../theme/size_config.dart';
 
 class SearchField extends StatelessWidget {
   const SearchField({
@@ -13,7 +11,7 @@ class SearchField extends StatelessWidget {
     return Container(
       width: SizeConfig.screenWidth !* 0.7,
       decoration: BoxDecoration(
-        color: kSecondaryColor.withOpacity(0.1),
+        color:  Color(0xFF979797).withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(

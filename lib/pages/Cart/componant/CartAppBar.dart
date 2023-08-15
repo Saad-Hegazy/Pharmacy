@@ -8,16 +8,6 @@ class CartAppBar extends StatelessWidget {
       padding: EdgeInsets.all(25),
       child: Row(
         children: [
-          InkWell(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Colors.lightBlue,
-            ),
-          ),
           Padding(padding: EdgeInsets.only(left: 20,),
           child: Text('سلة المشتريات',style: TextStyle(
             fontSize: 23,fontWeight: FontWeight.bold,
